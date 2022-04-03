@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "191051075610",
+    "firebase_url": "https://recipe-db-beba9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "recipe-db-beba9",
+    "storage_bucket": "recipe-db-beba9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191051075610:android:18e279d19405b57b5601a3",
+        "android_client_info": {
+          "package_name": "com.recipedb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191051075610-30q51octf4j0dvm0k1ch4jt47dlaq27s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXZfKRrPVBXFwvyzpUejnJomXmLqGC8a8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191051075610-30q51octf4j0dvm0k1ch4jt47dlaq27s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
