@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_db/userAuthentication/AuthService.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class signUp extends StatefulWidget {
   const signUp({Key? key}) : super(key: key);
@@ -26,8 +28,7 @@ class _signUpState extends State<signUp> {
   @override
   Widget build(BuildContext context) {
 
-    // Authentication Service
-    final authService = Provider.of<AuthService>(context);
+    final authService = Provider.of<AuthService>(context); // Authentication Service
 
     return Scaffold(
       body: SafeArea( //Prevent the screen from occupying the notifications bar at the top
@@ -94,10 +95,10 @@ class _signUpState extends State<signUp> {
                     child: const Text('Sign Up'),
                     onPressed: () async{
                       await authService.createUser(emailController.text, passwordController.text);
+
                       Navigator.pop(context);
                     },
                   ),
-
                 ],
               ),
             ),

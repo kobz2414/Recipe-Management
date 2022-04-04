@@ -1,7 +1,3 @@
-# recipe_db
-
-Recipe Management Application
-
-## Getting Started
+# Recipe Management Application
 
 This project is for adding, viewing, and managing recipes.
