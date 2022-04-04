@@ -17,10 +17,6 @@ class _homePageState extends State<homePage> {
   final _user = FirebaseAuth.instance.currentUser!;
   final _database = FirebaseDatabase.instance.reference(); // Firebase database instance
 
-
-  String userFirstName = "";
-  String userLastName = "";
-
   @override
   Widget build(BuildContext context) {
 
@@ -69,7 +65,7 @@ class _homePageState extends State<homePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Column(
@@ -160,14 +156,14 @@ class _homePageState extends State<homePage> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   )
                                 ]
                             );
                           });
                     }
-                    return SizedBox();
+                    return const SizedBox();
                   }
                 }
                 )

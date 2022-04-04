@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recipe_db/screens/recipeDetails.dart';
 import 'package:recipe_db/screens/signUp.dart';
 import 'package:recipe_db/userAuthentication/AuthService.dart';
 import '../controller/homePageController.dart';
@@ -29,8 +30,9 @@ class homeScreen extends StatelessWidget {
         ),
         home: homePageController(),
         routes: {
-         '/signUp': (context) => signUp(),
-          '/ownRecipes': (context) => ownRecipe()
+          '/signUp': (context) => signUp(),
+          '/ownRecipes': (context) => ownRecipe(),
+          '/recipeDetails': (context) => recipeDetails()
         },
       )
     );
