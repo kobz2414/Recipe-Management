@@ -94,9 +94,32 @@ class _editRecipeState extends State<editRecipe> {
     );
   }
 
-  void ambotOy(){
-    setState(() {
+  void _readdb(){
+    _database.child("userData").child(_user.uid).child("ownRecipe").child(args["foodName"]).child("Ingredients").once().then((DataSnapshot dataSnapshot){
+      _controllers.clear();
+      _fields.clear();
 
+      var data = dataSnapshot.value.toList();
+
+      for(int x = 0; x < data.length; x++) {
+        final controller = TextEditingController();
+        final field = TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            labelText: data[x],
+          ),
+        );
+
+        controller.text = data[x];
+
+        _controllers.add(controller);
+        _fields.add(field);
+      }
+      setState(() {
+      });
     });
   }
 
@@ -190,15 +213,13 @@ class _editRecipeState extends State<editRecipe> {
                         fontSize: 12,
                       ),),
                     onPressed: (){
-                      setState(() {
-
-                      });
+                      _readdb();
                     },
                   ),
 
                   _addTile(),
 
-                  StreamBuilder(
+                  /*StreamBuilder(
                     stream: _database.child("userData").child(_user.uid).child("ownRecipe").child(args["foodName"]).child("Ingredients").onValue,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -236,7 +257,7 @@ class _editRecipeState extends State<editRecipe> {
                         }
                       }
 
-                  ),
+                  ),*/
 
                   Expanded(child: _listView()),
                   _okButton(),
