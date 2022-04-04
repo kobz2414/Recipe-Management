@@ -5,7 +5,10 @@ import 'package:recipe_db/screens/recipeDetails.dart';
 import 'package:recipe_db/screens/signUp.dart';
 import 'package:recipe_db/userAuthentication/AuthService.dart';
 import '../controller/homePageController.dart';
+import 'addRecipe.dart';
+import 'editRecipe.dart';
 import 'ownRecipe.dart';
+import 'ownRecipeDetails.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +35,10 @@ class homeScreen extends StatelessWidget {
         routes: {
           '/signUp': (context) => signUp(),
           '/ownRecipes': (context) => ownRecipe(),
-          '/recipeDetails': (context) => recipeDetails()
+          '/recipeDetails': (context) => recipeDetails(),
+          '/ownRecipeDetails': (context) => ownRecipeDetails(),
+          '/addRecipe': (context) => addRecipe(),
+          '/editRecipe': (context) => editRecipe()
         },
       )
     );

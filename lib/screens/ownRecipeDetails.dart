@@ -13,6 +13,7 @@ class _recipeDetailsState extends State<ownRecipeDetails> {
 
   final _user = FirebaseAuth.instance.currentUser!;
   final _database = FirebaseDatabase.instance.reference(); // Firebase database instance
+  var recipeData;
 
   Map args = {};
 
@@ -117,7 +118,7 @@ class _recipeDetailsState extends State<ownRecipeDetails> {
                           } else if (snapshot.hasError) {
                             return const Text("Something went wrong");
                           } else {
-                            var recipeData = (snapshot.data! as Event).snapshot.value;
+                            recipeData = (snapshot.data! as Event).snapshot.value;
 
                             if (recipeData != null) {
                               return Text(recipeData);
@@ -134,6 +135,7 @@ class _recipeDetailsState extends State<ownRecipeDetails> {
                     Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton( //Login Button
                               style: ElevatedButton.styleFrom(
@@ -142,14 +144,18 @@ class _recipeDetailsState extends State<ownRecipeDetails> {
                                 onPrimary: Colors.black,
                                 minimumSize: Size(MediaQuery.of(context).size.width-150, 40),
                               ),
-                              child: const Text('Sign In'),
+                              child: const Text('Edit'),
                               onPressed: (){
-                                //authService.signIn(emailController.text, passwordController.text);
+                                Navigator.pushNamed(context, '/editRecipe', arguments: {
+                                  "foodName": args["foodName"],
+                                  "foodInstuctions": recipeData
+                                });
                               },
                             ),
                           ],
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton( //Login Button
                               style: ElevatedButton.styleFrom(
@@ -158,9 +164,10 @@ class _recipeDetailsState extends State<ownRecipeDetails> {
                                 onPrimary: Colors.black,
                                 minimumSize: Size(MediaQuery.of(context).size.width-150, 40),
                               ),
-                              child: const Text('Sign In'),
+                              child: const Text('Delete'),
                               onPressed: (){
-                                //authService.signIn(emailController.text, passwordController.text);
+                                deleteRecipe();
+                                Navigator.pop(context);
                               },
                             ),
                           ],
@@ -173,5 +180,9 @@ class _recipeDetailsState extends State<ownRecipeDetails> {
         ),
       ),
     );
+  }
+
+  deleteRecipe(){
+    _database.child("userData").child(_user.uid).child("ownRecipe").child(args["foodName"]).remove();
   }
 }
