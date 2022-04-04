@@ -14,8 +14,8 @@ class welcomePage extends StatefulWidget {
 
 class _homeScreenState extends State<welcomePage> {
 
-  final _user = FirebaseAuth.instance.currentUser!;
-  final _database = FirebaseDatabase.instance.reference();
+  final _user = FirebaseAuth.instance.currentUser!; // Current user instance
+  final _database = FirebaseDatabase.instance.reference(); // Firebase database instance
 
   //Controllers for Text Fields
   TextEditingController firstNameController = TextEditingController();
@@ -57,8 +57,8 @@ class _homeScreenState extends State<welcomePage> {
             }
 
             return Scaffold(
-              body: SafeArea(
-                child: SingleChildScrollView(
+              body: SafeArea( //Prevent the screen from occupying the notifications bar at the top
+                child: SingleChildScrollView( // Allow the page to be scrollable
                   child: Container(
                     width: MediaQuery.of(context).size.width, //Set container size with screen size (width)
                     height: MediaQuery.of(context).size.height, //Set container size with screen size (height)

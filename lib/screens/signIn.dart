@@ -95,9 +95,10 @@ class _signInState extends State<signIn> {
 
                 ElevatedButton( //Login Button
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
+                    shape: StadiumBorder(),
+                    primary: Color(0xffFF971D),
                     onPrimary: Colors.black,
-                    minimumSize: Size(MediaQuery.of(context).size.width-150, 35),
+                    minimumSize: Size(MediaQuery.of(context).size.width-150, 40),
                   ),
                   child: const Text('Sign In'),
                   onPressed: (){

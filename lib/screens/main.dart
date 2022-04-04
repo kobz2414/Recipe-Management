@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recipe_db/screens/signUp.dart';
 import 'package:recipe_db/userAuthentication/AuthService.dart';
 import '../controller/homePageController.dart';
+import 'ownRecipe.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,7 @@ class homeScreen extends StatelessWidget {
         home: homePageController(),
         routes: {
          '/signUp': (context) => signUp(),
+          '/ownRecipes': (context) => ownRecipe()
         },
       )
     );
