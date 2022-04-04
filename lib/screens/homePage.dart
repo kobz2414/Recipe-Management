@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart';
 
 import '../userAuthentication/AuthService.dart';
 
@@ -17,6 +20,33 @@ class _homePageState extends State<homePage> {
   final _user = FirebaseAuth.instance.currentUser!;
   final _database = FirebaseDatabase.instance.reference(); // Firebase database instance
 
+  int itemcount = 0;
+  bool isEmpty = true;
+  List apiOutput = [];
+
+  Future<void> getItems() async {
+    Response response;
+
+    var queryParameters = {
+      'c': 'Seafood'
+    };
+
+    response = await get(Uri.http('themealdb.com', 'api/json/v1/1/filter.php', queryParameters));
+    Map jsonOutput = jsonDecode(response.body);
+    apiOutput.addAll(jsonOutput["meals"]);
+
+
+    itemcount = apiOutput.length;
+    isEmpty = false;
+
+    setState(() {});
+  }
+
+  void initState(){
+    super.initState();
+    getItems();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -26,7 +56,7 @@ class _homePageState extends State<homePage> {
         child: SingleChildScrollView( // Allow the page to be scrollable
           child: Container(
             width: MediaQuery.of(context).size.width, //Set container size with screen size (width)
-            height: MediaQuery.of(context).size.height, //Set container size with screen size (height)
+            //height: MediaQuery.of(context).size.height, //Set container size with screen size (height)
             margin: const EdgeInsets.all(30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start, // Align contents to the left
@@ -107,66 +137,48 @@ class _homePageState extends State<homePage> {
                     height: 30
                 ),
 
-                StreamBuilder( // Get realtime data from database
-                stream: _database.child("Recipe").onValue,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return const Text("Something went wrong");
-                  } else {
-                    var recipeData = (snapshot.data! as Event).snapshot.value;
+                ListView.builder( // Builds a list based on the data from the database
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: itemcount,
+                  itemBuilder: (context, index) {
+                    return Column(
+                        children: [
+                          ElevatedButton( //A Button
+                            style: ElevatedButton.styleFrom(
+                              shape: StadiumBorder(),
+                              primary: Colors.white,
+                            ), onPressed: () {
 
-                    if (recipeData != null) {
-                      var usersList = recipeData.entries.toList();
-
-                      return ListView.builder( // Builds a list based on the data from the database
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: recipeData.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                                children: [
-                                  ElevatedButton( //A Button
-                                    style: ElevatedButton.styleFrom(
-                                      shape: StadiumBorder(),
-                                      primary: Colors.white,
-                                    ), onPressed: () {
-                                    Navigator.pushNamed(context, '/recipeDetails', arguments: {
-                                          'foodName': usersList[index].key
-                                        });
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.all(20),
-                                              child: Text(usersList[index].key,
-                                                style: const TextStyle(
-                                                    color: Color(0xff252626),
-                                                    fontSize: 15
-                                                ),
-                                              )
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                            print(apiOutput[index]["idMeal"]);
+                            Navigator.pushNamed(context, '/recipeDetails', arguments: {
+                              'foodID': apiOutput[index]["idMeal"].toString(),
+                            });
+                          },
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: Text(apiOutput[index]["strMeal"],
+                                          style: const TextStyle(
+                                              color: Color(0xff252626),
+                                              fontSize: 12
+                                          ),
+                                        )
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  )
-                                ]
-                            );
-                          });
-                    }
-                    return const SizedBox();
-                  }
-                }
-                )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          )
+                        ]
+                    );
+                  }),
               ],//Add margin to the container
             ),
           ),
